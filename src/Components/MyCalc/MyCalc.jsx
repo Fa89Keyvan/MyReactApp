@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import CalcHistory from './CalcHistory';
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
+import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
 export default class MyCalc extends Component {
 

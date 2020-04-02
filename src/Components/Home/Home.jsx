@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
-import { match } from 'react-router-dom'
 
 export default class Home extends Component {
-
-    
 
     render() {
         console.log(this.props);
