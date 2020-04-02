@@ -6,7 +6,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import {
   HashRouter as Router,
   NavLink,
-  Switch
+  Switch,
+  Route
 } from 'react-router-dom';
 
 function App() {
@@ -32,8 +33,11 @@ function App() {
         <div className="row">
           <div className="col-12">
             <Switch>
-              <Router exact path="/"><Home /></Router>
-              <Router exact path="/Calculator"><MyCalc /></Router>
+              <Route exact path="/Calculator">
+                <MyCalc />
+              </Route>
+              <Route exact path="/:id?" component={Home}/>
+              <Route exact path="/Home/:id?" component={Home}/>
             </Switch>
           </div>
         </div>
