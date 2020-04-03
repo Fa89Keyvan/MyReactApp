@@ -1,15 +1,16 @@
 import React, { Component } from 'react'
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { baseUrl } from './ReqresSettings';
-import { NavLink } from 'react-router-dom';
 
 export default class Users extends Component {
 
     usersRoute = "/Reqres/UsersList"
+    state = { usersList: [], showingItems: 0, page: 1, total: 0 };
+    constructor(props) {
+        super(props);
 
-    constructor() {
-        super();
-        this.state = { usersList: [], showingItems: 0, page: 1,total: 0 };
+        this.loadUsersList = this.loadUsersList.bind(this);
+        this.changePage = this.changePage.bind(this);
     }
 
     // getQuery = () => {
@@ -17,38 +18,35 @@ export default class Users extends Component {
     //     return new URLSearchParams(hash.substring(hash.indexOf("?")));
     // }
 
-    componentDidMount   = () => this.loadUsersList();
-    //componentWillUpdate() { this.loadUsersList(); }
-    changePage = (p) => {
-        // console.log("changing page: ",p);
-        // this.setState({ page: p });
-        // console.log("page changed to: ", this.state.page);
-        this.loadUsersList(p);
-    }
+    componentDidMount = () => { console.log("DidMount"); this.loadUsersList(); }
 
+    changePage = (p) => this.setState({ ...this.state, page: p }, () => this.loadUsersList());
 
+    
 
-    loadUsersList = (page = 1) => {
+    loadUsersList = () => {
+        const { page } = this.state;
         console.log("loding page:", page);
-        fetch(baseUrl + `/users?page=${page}`)
-        .then(response => response.json())
-        .then((response) => {
+        fetch(baseUrl + `/users?page=${this.state.page}`)
+            .then(response => response.json())
+            .then((response) => {
 
-            let usersList = response.data;
-            let showingItems = usersList.length;
+                let usersList = response.data;
+                let showingItems = usersList.length;
 
-            this.setState(
-                {
-                    usersList: usersList,
-                    total: response.total,
-                    showingItems: showingItems
-                });
-        });
+                this.setState(
+                    {
+                        ...this.state,
+                        usersList: usersList,
+                        total: response.total,
+                        showingItems: showingItems
+                    });
+            });
     }
 
 
     // renderPagination = () =>{
-        
+
     //     let paginationItems;
     //     let { total,  }
     //     let pagesCount = total / 
@@ -61,6 +59,7 @@ export default class Users extends Component {
     // }
 
     render() {
+        console.log("calling render");
         return (
             <>
                 <div className="card">
@@ -100,14 +99,14 @@ export default class Users extends Component {
                                             </td>
                                             <td>
                                                 <ul className="pagination pagination-sm">
-                                                    <li className="page-item"><a className="page-link" href="#">Previous</a></li>
+                                                    {/* <li className="page-item"><a className="page-link" href="#">Previous</a></li> */}
                                                     <li className="page-item">
                                                         <button className="page-link" onClick={() => this.changePage(1)}>1</button>
                                                     </li>
                                                     <li className="page-item">
                                                         <button className="page-link" onClick={() => this.changePage(2)}>2</button>
                                                     </li>
-                                                    <li className="page-item"><a className="page-link" href="#">Next</a></li>
+                                                    {/* <li className="page-item"><a className="page-link" href="#">Next</a></li> */}
                                                 </ul>
                                             </td>
                                         </tr>
